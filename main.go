@@ -10,6 +10,7 @@ var note = []string{}
 
 func notePage(w http.ResponseWriter, r *http.Request) {
 	// Your code goes here (Loop over the slice note, and print each value)
+	fmt.Fprintln(w, "hey dingus")
 }
 
 func hello(w http.ResponseWriter, r *http.Request) {
@@ -27,10 +28,7 @@ func hello(w http.ResponseWriter, r *http.Request) {
 			fmt.Fprintf(w, "ParseForm() err: %v", err)
 			return
 		}
-		fmt.Fprintf(w, "Post from website! r.PostFrom = %v\n", r.PostForm)
-
 		note = append(note, r.FormValue("note"))
-		fmt.Fprintf(w, "note = %s\n", note)
 	default:
 		fmt.Fprintf(w, "Sorry, only GET and POST methods are supported.")
 	}
