@@ -8,6 +8,10 @@ import (
 
 var note = []string{}
 
+func notePage(w http.ResponseWriter, r *http.Request) {
+	// Your code goes here (Loop over the slice note, and print each value)
+}
+
 func hello(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path != "/" {
 		http.Error(w, "404 not found.", http.StatusNotFound)
@@ -24,7 +28,8 @@ func hello(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		fmt.Fprintf(w, "Post from website! r.PostFrom = %v\n", r.PostForm)
-		note := r.FormValue("note")
+
+		note = append(note, r.FormValue("note"))
 		fmt.Fprintf(w, "note = %s\n", note)
 	default:
 		fmt.Fprintf(w, "Sorry, only GET and POST methods are supported.")
@@ -33,6 +38,7 @@ func hello(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	http.HandleFunc("/", hello)
+	http.HandleFunc("/note", notePage)
 
 	fmt.Printf("Starting server for testing HTTP POST...\n")
 	if err := http.ListenAndServe(":8080", nil); err != nil {
