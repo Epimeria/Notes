@@ -9,36 +9,18 @@ import (
 var note = []string{}
 
 func notePage(w http.ResponseWriter, r *http.Request) {
-	// Your code goes here (Loop over the slice note, and print each value)
-	fmt.Fprintln(w, "hey dingus")
+	fmt.Fprintln(w, "heyya (this is serving an HTML file, it's being written directly by the program. If you update this, you will have to restart to see the changes)")
 }
 
-func hello(w http.ResponseWriter, r *http.Request) {
-	if r.URL.Path != "/" {
-		http.Error(w, "404 not found.", http.StatusNotFound)
-		return
-	}
-
-	switch r.Method {
-	case "GET":
-		http.ServeFile(w, r, "form.html")
-	case "POST":
-		// Call ParseForm() to parse the raw query and update r.PostForm and r.Form.
-		if err := r.ParseForm(); err != nil {
-			fmt.Fprintf(w, "ParseForm() err: %v", err)
-			return
-		}
-		note = append(note, r.FormValue("note"))
-	default:
-		fmt.Fprintf(w, "Sorry, only GET and POST methods are supported.")
-	}
+func serveSomeHtmlPage(w http.ResponseWriter, r *http.Request) {
+	http.ServeFile(w, r, "some.html")
 }
 
 func main() {
-	http.HandleFunc("/", hello)
+	http.HandleFunc("/", serveSomeHtmlPage)
 	http.HandleFunc("/note", notePage)
 
-	fmt.Printf("Starting server for testing HTTP POST...\n")
+	fmt.Printf("Starting server for getting started...\n")
 	if err := http.ListenAndServe(":8080", nil); err != nil {
 		log.Fatal(err)
 	}
